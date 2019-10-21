@@ -2,34 +2,55 @@
 #define LIST_H
 
 #include <functional>
+#include <limits>
 
-template<typename T>
 struct list_node {
-    T value;
+    int value;
     list_node* next = nullptr;
 };
 
-template<typename T>
-class list {
+/// Список с ограничителем
+class List {
 public:
+    static const int border_value = std::numeric_limits<int>::max();
 
 public:
-    list_node* top;
+    List() {
+        top = new list_node();
+        top->value = border_value;
+    }
+
+    void append(const int& value) {
+        list_node* new_node = new list_node();
+
+        new_node->value = value;
+
+        /// Поиск подходящего места вставки нового элемента
+        list_node* current = top;
+        while(current->next != nullptr) {
+            current = current->next;
+        }
+        
+        current->next = new_node;
+    }
+
+public:
+    list_node* top = nullptr;
 };
 
-template<typename T>
-void Iterate(list_node<T>* top, std::function<void(T)> fun) {
+
+void Iterate(list_node* top, std::function<void(int)> fun) {
     while(top != nullptr) {
-        fun(top.value);
-        top = top.next;
+        fun(top->value);
+        top = top->next;
     }
 } 
 
-template<typename T>
-list_node* FindCell(list_node<T>* top, T target) {
+
+list_node* FindCell(list_node* top, int target) {
     while(top != nullptr) {
-        if(top.value == target) return top;
-        top = top.next;
+        if(top->value == target) return top;
+        top = top->next;
     }
 
     return nullptr;
@@ -37,13 +58,12 @@ list_node* FindCell(list_node<T>* top, T target) {
 
 /// Находит ячейку предшествующую целевой
 /// Для списков без ограничителя
-template<typename T>
-list_node* FindCellBefore(list_node<T>* top, T value) {
+list_node* FindCellBefore(list_node* top, int target) {
     if(top == nullptr) return nullptr;
 
-    while(top.next != nullptr) {
-        if(top.next.value == target) return top;
-        top = top.next;
+    while(top->next != nullptr) {
+        if(top->next->value == target) return top;
+        top = top->next;
     }
 
     return nullptr;
@@ -51,11 +71,10 @@ list_node* FindCellBefore(list_node<T>* top, T value) {
 
 
 /// Для списков с ограничителем
-template<typename T>
-list_node* FindCellBefore(list_node<T>* top, T value) {
-    while(top.next != nullptr) {
-        if(top.next.value == target) return top;
-        top = top.next;
+list_node* FindCellBeforeL(list_node* top, int target) {
+    while(top->next != nullptr) {
+        if(top->next->value == target) return top;
+        top = top->next;
     }
 
     return nullptr;

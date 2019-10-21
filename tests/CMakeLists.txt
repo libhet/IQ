@@ -11,6 +11,7 @@ project(iq_test)
 add_executable(${PROJECT_NAME}
         main_test.cpp
         random/lcg_test.cpp
+        algorithms/sort_test.cpp
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES

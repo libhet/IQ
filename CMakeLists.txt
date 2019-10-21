@@ -4,7 +4,9 @@ cmake_minimum_required(VERSION 3.9)
 project(iq)
 
 set(SOURCES src/random/lcg.h
-src/random/lcg.cpp)
+            src/random/lcg.cpp
+            src/algorithms/sort.h
+            )
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../lib)
